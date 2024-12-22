@@ -26,6 +26,10 @@ PointCloudInterface::~PointCloudInterface()
 PointCloudInterface::PointCloudInterface(const rclcpp::NodeOptions & node_options)
 : Node("carla_pointcloud_interface_node", node_options), tf_output_frame_("base_link")
 {
+    dummy_image_=
+            this->create_subscription<sensor_msgs::msg::Image>(
+            "/sensing/camera/traffic_light/image_raw", rclcpp::SensorDataQoS().best_effort(),
+            [](sensor_msgs::msg::Image::SharedPtr){});
     carla_cloud_ =
             this->create_subscription<sensor_msgs::msg::PointCloud2>(
             "carla_pointcloud", rclcpp::SensorDataQoS(),
